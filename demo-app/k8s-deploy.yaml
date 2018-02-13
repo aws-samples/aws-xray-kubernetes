@@ -34,9 +34,9 @@ spec:
               containerPort: 8080
           env:
             - name: API_CNAME
-              value: service-b.default.svc.cluster.local
+              value: service-b.default
             - name: AWS_XRAY_DAEMON_ADDRESS
-              value: xray-service.default.svc.cluster.local
+              value: xray-service.default
 
 ---
 # Service A
@@ -77,7 +77,7 @@ spec:
               containerPort: 8080
           env:
             - name: AWS_XRAY_DAEMON_ADDRESS
-              value: xray-service.default.svc.cluster.local
+              value: xray-service.default
 
 ---
 # Service B
