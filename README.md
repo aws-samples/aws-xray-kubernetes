@@ -1,6 +1,6 @@
 ## aws-xray-kubernetes
 
-Code examples showing how to run AWS X-Ray on a Kubernetes cluster for deep application insights.
+Code examples showing how to run AWS X-Ray on a Kubernetes cluster for deep application insights. Please also see the acompanying [blog post](https://aws.amazon.com/de/blogs/compute/application-tracing-on-kubernetes-with-aws-x-ray/) for background information.
 
 ## Run AWS X-Ray on Kubernetes
 The xray-daemon folder contains the code required to build and deploy an AWS X-Ray daemon docker image and deploy this to an existing EKS or Kubernetes cluster.
