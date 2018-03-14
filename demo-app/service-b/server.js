@@ -37,6 +37,10 @@ function sleep(callback) {
   callback();
 }
 
+app.get('/health', function(req, res) {
+  res.status(200).send("Healthy");
+});
+
 app.post('/create', function(req, res) {
   res.setHeader('Content-Type', 'application/json');
 
