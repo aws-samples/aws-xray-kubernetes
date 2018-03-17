@@ -33,6 +33,10 @@ XRay.middleware.enableDynamicNaming();
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(XRay.express.openSegment('service-a'));
 
+app.get('/health', function(req, res) {
+  res.status(200).send("Healthy");
+});
+
 app.get('/', function(req, res) {
   var seg = XRay.getSegment();
   seg.addAnnotation('service', 'service-b-request');
