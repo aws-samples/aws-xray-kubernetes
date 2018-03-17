@@ -1,0 +1,26 @@
+version: '2'
+services:
+  service-a:
+    image: 820537372947.dkr.ecr.us-east-1.amazonaws.com/service-b:latest
+    ports:
+    - 8080:8080
+    environment:
+      AWS_XRAY_DAEMON_ADDRESS:
+    logging:
+      driver: awslogs
+      options:
+        awslogs-group: /ecs/service-a
+        awslogs-region: us-east-1
+        awslogs-stream-prefix: ecs
+  x-ray:
+    image: 820537372947.dkr.ecr.us-east-1.amazonaws.com/xray-daemon:latest
+    ports:
+    - 2000:2000/udp
+    environment:
+      AWS_XRAY_DAEMON_ADDRESS:
+    logging:
+      driver: awslogs
+      options:
+        awslogs-group: /ecs/service-a
+        awslogs-region: us-east-1
+        awslogs-stream-prefix: ecs
