@@ -20,6 +20,12 @@ Get a list of subnets in a VPC.  Replace *<vpc_id>* with the vpc id of the vpc w
 aws ec2 describe-subnets --query 'Subnets[?VpcId==`<vpc_id>`].SubnetId'
 ```
 
+Choose at least 2 subnets to set as environment variables.
+
+```
+export SUBNET_1=<subnet_id_1>
+export SUBNET_2=<subnet_id_2>
+```
 
 aws ec2 describe-security-groups --filters Name=vpc-id,Values=vpc-7bc1da1d --query 'SecurityGroups[*].GroupId'
 aws ec2 describe-security-groups --filter Name=group-id,Values=sg-09fa0c77 --query 'SecurityGroups[*].IpPermissions'
