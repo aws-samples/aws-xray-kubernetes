@@ -27,7 +27,7 @@ export SUBNET_ID_1=<subnet_id_1>
 export SUBNET_ID_2=<subnet_id_2>
 ```
 
-Get a list of security groups in the VPC. Replace *<vpc_id>* with the vpc id that you used earlier. 
+Create sg! Get a list of security groups in the VPC. Replace *<vpc_id>* with the vpc id that you used earlier. 
 
 ```
 aws ec2 describe-security-groups --filters Name=vpc-id,Values=<vpc_id> --query 'SecurityGroups[*].GroupId'
