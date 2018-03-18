@@ -1,4 +1,4 @@
-Create a task role that allows the task to write traces to AWS X-Ray
+Create a task role that allows the task to write traces to AWS X-Ray.  Replace *<role_name>* with your role name. 
 
 ```
 export TASK_ROLE_NAME=$(aws iam create-role --role-name <role_name> --assume-role-policy-document file://ecs-trust-pol.json | jq -r '.Role.RoleName')
@@ -14,9 +14,13 @@ export ECS_EXECUTION_POLICY_ARN=$(aws iam list-policies --scope AWS --query 'Pol
 aws iam attach-role-policy --role-name ecsTaskExecutionRole --policy-arn $ECS_EXECUTION_POLICY_ARN
 ```
 
-aws iam get-role --role-name xray-role-for-fargate --query 'Role.Arn'
-aws iam get-role --role-name ecsTaskExecutionRole --query 'Role.Arn'
-aws ec2 describe-subnets --query 'Subnets[?VpcId==`vpc-7bc1da1d`].SubnetId'
+Get a list of subnets in a VPC.  Replace *<vpc_id>* with the vpc id of the vpc where you intend to deploy the services.
+
+```
+aws ec2 describe-subnets --query 'Subnets[?VpcId==`<vpc_id>`].SubnetId'
+```
+
+
 aws ec2 describe-security-groups --filters Name=vpc-id,Values=vpc-7bc1da1d --query 'SecurityGroups[*].GroupId'
 aws ec2 describe-security-groups --filter Name=group-id,Values=sg-09fa0c77 --query 'SecurityGroups[*].IpPermissions'
 #verify sg has the appropriate inbound rules
