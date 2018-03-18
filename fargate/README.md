@@ -1,10 +1,10 @@
 Create a task role that allows the task to write traces to AWS X-Ray
 
 ```
-export ACCOUNT_ID=$(aws sts get-caller-identity --output text --query 'Account')
-export TASK_ROLE_ARN=$(aws iam create-role --role-name fargate-xray-role --assume-role-policy-document \
-file://ecs-trust-pol.json | jq -r '.Role.Arn')
-aws 
+export TASK_ROLE_NAME=$(aws iam create-role --role-name <role_name> --assume-role-policy-document \
+file://ecs-trust-pol.json | jq -r '.Role.RoleName')
+export XRAY_POLICY_ARN=$(aws iam create-policy --policy-name --policy-document file://xray-pol.json | jq -r '.Policy.Arn')
+aws iam attach-role-policy --role-name $TASK_ROLE_NAME --policy-arn $XRAY_POLICY_ARN
 ```
 
 aws iam get-role --role-name xray-role-for-fargate --query 'Role.Arn'
