@@ -9,7 +9,7 @@ services:
     logging:
       driver: awslogs
       options:
-        awslogs-group: /ecs/service-b}
+        awslogs-group: /ecs/service-b
         awslogs-region: us-east-1
         awslogs-stream-prefix: ecs
   x-ray:
@@ -21,6 +21,6 @@ services:
     logging:
       driver: awslogs
       options:
-        awslogs-group: /ecs/xray-sidecar
+        awslogs-group: /ecs/service-b
         awslogs-region: us-east-1
         awslogs-stream-prefix: ecs
