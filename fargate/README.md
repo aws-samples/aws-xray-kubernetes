@@ -20,17 +20,30 @@ Get a list of subnets in a VPC.  Replace *<vpc_id>* with the vpc id of the vpc w
 aws ec2 describe-subnets --query 'Subnets[?VpcId==`<vpc_id>`].SubnetId'
 ```
 
-Choose at least 2 subnets to set as environment variables.  These will be used to populate 
+Choose at least 2 subnets to set as environment variables.  These will be used to populate the ecs-params.yml file.
 
 ```
 export SUBNET_ID_1=<subnet_id_1>
 export SUBNET_ID_2=<subnet_id_2>
 ```
 
+Get a list of security groups in the VPC. Replace *<vpc_id>* with the vpc id that you used earlier. 
 
-aws ec2 describe-security-groups --filters Name=vpc-id,Values=vpc-7bc1da1d --query 'SecurityGroups[*].GroupId'
-aws ec2 describe-security-groups --filter Name=group-id,Values=sg-09fa0c77 --query 'SecurityGroups[*].IpPermissions'
-#verify sg has the appropriate inbound rules
+```
+aws ec2 describe-security-groups --filters Name=vpc-id,Values=<vpc_id> --query 'SecurityGroups[*].GroupId'
+```
+
+Verify that the security group you selected allows port 8080 inbound.  Replace *<security_group_id>* with the security group id that you've chosen. 
+
+```
+aws ec2 describe-security-groups --filter Name=group-id,Values=<security_group_id> --query 'SecurityGroups[*].IpPermissions'
+```
+
+Create a environment variable for the security group. 
+
+```
+export SG_ID=<security_group_id>
+```
 
 #create alb
 aws elbv2 create-load-balancer --name service-b-lb --subnets subnet-f8bc52a2 subnet-7c480740 --security-groups sg-09fa0c77 \
