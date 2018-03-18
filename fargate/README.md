@@ -9,7 +9,9 @@ aws iam attach-role-policy --role-name $TASK_ROLE_NAME --policy-arn $XRAY_POLICY
 If this is your first time using ECS you will need to create the ECS Task Execution Role
 
 ```
-aws iam create-role --role-name ecsTaskExecutionRole --assume-role-policy-document file://
+aws iam create-role --role-name ecsTaskExecutionRole --assume-role-policy-document file://ecs-trust-pol.json
+export ECS_EXECUTION_POLICY_ARN=$(aws iam list-policies --scope AWS --query 'Policies[?PolicyName==`AmazonECSTaskEtionRolePolicy`].Arn' | jq -r '.[]')
+aws iam attach-role-policy --role-name ecsTaskExecutionRole --policy-arn $ECS_EXECUTION_POLICY_ARN
 ```
 
 aws iam get-role --role-name xray-role-for-fargate --query 'Role.Arn'
