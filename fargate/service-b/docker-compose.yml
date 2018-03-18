@@ -1,7 +1,7 @@
 version: '2'
 services:
   service-a:
-    image: 820537372947.dkr.ecr.us-east-1.amazonaws.com/service-b:latest
+    image: ${REGISTRY_URL_SERVICE_A}
     ports:
     - 8080:8080
     environment:
@@ -9,11 +9,11 @@ services:
     logging:
       driver: awslogs
       options:
-        awslogs-group: /ecs/service-a
+        awslogs-group: /ecs/service-a}
         awslogs-region: us-east-1
         awslogs-stream-prefix: ecs
   x-ray:
-    image: 820537372947.dkr.ecr.us-east-1.amazonaws.com/xray-daemon:latest
+    image: ${REGISTRY_URL_XRAY}
     ports:
     - 2000:2000/udp
     environment:
@@ -21,6 +21,6 @@ services:
     logging:
       driver: awslogs
       options:
-        awslogs-group: /ecs/service-a
+        awslogs-group: /ecs/xray-sidecar
         awslogs-region: us-east-1
         awslogs-stream-prefix: ecs
