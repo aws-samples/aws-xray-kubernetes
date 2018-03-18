@@ -36,7 +36,7 @@ export SG_ID=$(aws ec2 create-security-group --group-name <group_name> --descrip
 Add the following inbound rules to the security group.
 
 ```
-aws ec2 authorize-security-group-ingress --group-id $SG_ID --protocol TCP --port 80 --cidr 0.0.0.0/0
+aws ec2 authorize-security-group-ingress --group-id $SG_ID --protocol tcp --port 80 --cidr 0.0.0.0/0
 aws ec2 authorize-security-group-ingress --group-id $SG_ID --protocol all --port all --source-group $SG_ID
 ```
 
