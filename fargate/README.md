@@ -40,17 +40,15 @@ aws ec2 authorize-security-group-ingress --group-id $SG_ID --protocol tcp --port
 aws ec2 authorize-security-group-ingress --group-id $SG_ID --protocol all --port all --source-group $SG_ID
 ```
 
-#create alb
-aws elbv2 create-load-balancer --name service-b-lb --subnets subnet-f8bc52a2 subnet-7c480740 --security-groups sg-09fa0c77 \
---scheme internet-facing --type application
-#create target group
-aws elbv2 create-target-group --name service-b-tg --protocol HTTP --port 8080 --vpc-id vpc-7bc1da1d
-#create listener
-aws elbv2 create-listener --load-balancer-arn \
-arn:aws:elasticloadbalancing:us-east-1:820537372947:loadbalancer/app/service-b-lb/5c7afe2e4c2d4f77 --protocol HTTP \
---port 80 --default-actions Type=forward,TargetGroupArn=arn:aws:elasticloadbalancing:us-east-1:820537372947:targetgroup/service-b-tg/3a30e651d497781a
+Create an Application Load Balancer (ALB), listener, and target group for service B.
 
-#launch service-b
+```
+export LOAD_BALANCER_ARN=$(aws elbv2 create-load-balancer --name <load_balancer_name> --subnets $SUBNET_ID_1 $SUBNET_ID_2 --security-groups $SG_ID --scheme internet-facing --type application | jq -r '.LoadBalancers[].LoadBalancerArn')
+export TARGET_GROUP_ARN=$(aws elbv2 create-target-group --name <target_group_name> --protocol HTTP --port 8080 --vpc-id <vpc_id> | jq -r '.TargetGroups[].TargetGroupArn')
+aws elbv2 create-listener --load-balancer-arn $LOAD_BALANCER_ARN --protocol HTTP --port 80 --default-actions Type=forward,TargetGroupArn=$TARGET_GROUP_ARN
+```
+
+launch service-b
 ecs-cli compose service up --deployment-max-percent 100 --deployment-min-healthy-percent 0 --load-balancer-name service-b-lb \
 --target-group-arn arn:aws:elasticloadbalancing:us-east-1:820537372947:targetgroup/service-b-tg/3a30e651d497781a --launch-type FARGATE
 
