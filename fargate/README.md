@@ -1,3 +1,7 @@
+Create a task role that allows the task to write traces to AWS X-Ray
+
+```export TASK_ROLE_ARN=$(aws iam create-role --role-name fargate-xray-role --assume-role-policy-document file://ecs-trust-pol.json | jq -r '.Role.Arn')```
+
 aws iam get-role --role-name xray-role-for-fargate --query 'Role.Arn'
 aws iam get-role --role-name ecsTaskExecutionRole --query 'Role.Arn'
 aws ec2 describe-subnets --query 'Subnets[?VpcId==`vpc-7bc1da1d`].SubnetId'
