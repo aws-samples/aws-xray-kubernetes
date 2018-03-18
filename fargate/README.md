@@ -6,6 +6,12 @@ export XRAY_POLICY_ARN=$(aws iam create-policy --policy-name --policy-document f
 aws iam attach-role-policy --role-name $TASK_ROLE_NAME --policy-arn $XRAY_POLICY_ARN
 ```
 
+If this is your first time using ECS you will need to create the ECS Task Execution Role
+
+```
+aws iam create-role --role-name ecsTaskExecutionRole --assume-role-policy-document file://
+```
+
 aws iam get-role --role-name xray-role-for-fargate --query 'Role.Arn'
 aws iam get-role --role-name ecsTaskExecutionRole --query 'Role.Arn'
 aws ec2 describe-subnets --query 'Subnets[?VpcId==`vpc-7bc1da1d`].SubnetId'
