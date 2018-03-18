@@ -1,7 +1,7 @@
 version: '2'
 services:
   service-a:
-    image: ${REGISTRY_URL_SERVICE_A}
+    image: ${REGISTRY_URL_SERVICE_B}
     ports:
     - 8080:8080
     environment:
@@ -9,7 +9,7 @@ services:
     logging:
       driver: awslogs
       options:
-        awslogs-group: /ecs/service-a}
+        awslogs-group: /ecs/service-b}
         awslogs-region: us-east-1
         awslogs-stream-prefix: ecs
   x-ray:
