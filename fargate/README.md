@@ -27,22 +27,17 @@ export SUBNET_ID_1=<subnet_id_1>
 export SUBNET_ID_2=<subnet_id_2>
 ```
 
-Create sg! Get a list of security groups in the VPC. Replace *<vpc_id>* with the vpc id that you used earlier. 
+Create a security group. Replace *<group_name>*, *<description_text>*, and *<vpc_id>* with the appropriate values. The *<vpc_id>* should match the vpc id you used earlier. 
 
 ```
-aws ec2 describe-security-groups --filters Name=vpc-id,Values=<vpc_id> --query 'SecurityGroups[*].GroupId'
+export SG_ID=$(aws ec2 create-security-group --group-name <group_name> --description <description_text> --vpc-id <vpc_id> | jq -r '.GroupId')
 ```
 
-Verify that the security group you selected allows port 8080 inbound.  Replace *<security_group_id>* with the security group id that you've chosen. 
+Add the following inbound rules to the security group.
 
 ```
-aws ec2 describe-security-groups --filter Name=group-id,Values=<security_group_id> --query 'SecurityGroups[*].IpPermissions'
-```
-
-Create a environment variable for the security group. 
-
-```
-export SG_ID=<security_group_id>
+aws ec2 authorize-security-group-ingress --group-id $SG_ID --protocol TCP --port 80 --cidr 0.0.0.0/0
+aws ec2 authorize-security-group-ingress --group-id $SG_ID --protocol all --port all --source-group $SG_ID
 ```
 
 #create alb
