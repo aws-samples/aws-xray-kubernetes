@@ -54,6 +54,20 @@ Get the DNS name of the load balancer.
 export SERVICE_B_ENDPOINT=$(aws elbv2 describe-load-balancers --load-balancer-arn $LOAD_BALANCER_ARN | jq -r '.LoadBalancers[].DNSName')
 ```
 
+Build and push the containers to ECR.
+
+```
+cd ./service-b/
+docker build -t service-b .
+ecs-cli push service-b
+cd ./service-a/
+docker build -t service-a .
+ecs-cli push service-a 
+cd ./xray-daemon/
+docker build -t xray-daemon .
+ecs-cli push xray-daemon
+```
+
 launch service-b
 ecs-cli compose service up --deployment-max-percent 100 --deployment-min-healthy-percent 0 --load-balancer-name service-b-lb \
 --target-group-arn arn:aws:elasticloadbalancing:us-east-1:820537372947:targetgroup/service-b-tg/3a30e651d497781a --launch-type FARGATE
