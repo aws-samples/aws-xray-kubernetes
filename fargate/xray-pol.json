@@ -7,9 +7,9 @@
                 "xray:PutTraceSegments",
                 "xray:PutTelemetryRecords"
             ],
-            "Resource": [
-                "${TASK_ROLE_ARN}"
-            ]
+	    "Resource": [
+	    	"*"
+	    ]
         }
     ]
 }
