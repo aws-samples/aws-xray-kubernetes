@@ -10,7 +10,7 @@
     "requiresCompatibilities": [
         "FARGATE"
     ],
-    "taskRoleArn": "<task_role>",
+    "taskRoleArn": "<task_role_arn>",
     "containerDefinitions": [
         {
             "environment": [
