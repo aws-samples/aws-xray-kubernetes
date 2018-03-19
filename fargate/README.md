@@ -68,6 +68,14 @@ docker build -t xray-daemon .
 ecs-cli push xray-daemon
 ```
 
+Set the registry URLs
+
+```
+export REGISTRY_URL_SERVICE_B=$(aws ecr describe-repositories --repository-name service-b | jq -r '.repositories[].repositoryUri')
+export REGISTRY_URL_XRAY_DAEMON=$(aws ecr describe-repositories --repository-name xray-daemon | jq -r '.repositories[].repositoryUri')
+export REGISTRY_URL_SERVICE_A=$(aws ecr describe-repositories --repository-name service-a | jq -r '.repositories[].repositoryUri')
+```
+
 Create service B.
 
 ```
