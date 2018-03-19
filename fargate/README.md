@@ -44,7 +44,7 @@ Create an Application Load Balancer (ALB), listener, and target group for servic
 
 ```
 export LOAD_BALANCER_ARN=$(aws elbv2 create-load-balancer --name <load_balancer_name> --subnets $SUBNET_ID_1 $SUBNET_ID_2 --security-groups $SG_ID --scheme internet-facing --type application | jq -r '.LoadBalancers[].LoadBalancerArn')
-export TARGET_GROUP_ARN=$(aws elbv2 create-target-group --name <target_group_name> --protocol HTTP --port 8080 --vpc-id <vpc_id> | jq -r '.TargetGroups[].TargetGroupArn')
+export TARGET_GROUP_ARN=$(aws elbv2 create-target-group --name <target_group_name> --protocol HTTP --port 8080 --vpc-id <vpc_id> --health-check-path /health | jq -r '.TargetGroups[].TargetGroupArn')
 aws elbv2 create-listener --load-balancer-arn $LOAD_BALANCER_ARN --protocol HTTP --port 80 --default-actions Type=forward,TargetGroupArn=$TARGET_GROUP_ARN
 ```
 
@@ -90,7 +90,7 @@ Create an Application Load Balancer (ALB), listener, and target group for servic
 
 ```
 export LOAD_BALANCER_ARN=$(aws elbv2 create-load-balancer --name <load_balancer_name> --subnets $SUBNET_ID_1 $SUBNET_ID_2 --security-groups $SG_ID --scheme internet-facing --type application | jq -r '.LoadBalancers[].LoadBalancerArn')
-export TARGET_GROUP_ARN=$(aws elbv2 create-target-group --name <target_group_name> --protocol HTTP --port 8080 --vpc-id <vpc_id> | jq -r '.TargetGroups[].TargetGroupArn')
+export TARGET_GROUP_ARN=$(aws elbv2 create-target-group --name <target_group_name> --protocol HTTP --port 8080 --vpc-id <vpc_id> --health-check-path /health | jq -r '.TargetGroups[].TargetGroupArn')
 aws elbv2 create-listener --load-balancer-arn $LOAD_BALANCER_ARN --protocol HTTP --port 80 --default-actions Type=forward,TargetGroupArn=$TARGET_GROUP_ARN
 ```
 
