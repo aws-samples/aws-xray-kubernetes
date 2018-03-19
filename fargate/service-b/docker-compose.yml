@@ -1,6 +1,6 @@
 version: '2'
 services:
-  service-a:
+  service-b:
     image: ${REGISTRY_URL_SERVICE_B}
     ports:
     - 8080:8080
