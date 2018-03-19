@@ -1,8 +1,8 @@
 version: 1
 task_definition:
   ecs_network_mode: awsvpc
-  task_role_arn: arn:aws:iam::820537372947:role/fargate-xray-role
-  task_execution_role: 
+  task_role_arn: ${TASK_ROLE_ARN}
+  task_execution_role: ${ECS_EXECUTION_ROLE_ARN}
   task_size:
     cpu_limit: 256
     mem_limit: 512
@@ -13,8 +13,8 @@ run_params:
   network_configuration:
     awsvpc_configuration:
       subnets:
-        - subnet-f8bc52a2
-        - subnet-7c480740
+        - ${SUBNET_ID_1}
+        - ${SUBNET_ID_2}
       security_groups:
-        - sg-d5d7a4a3
+        - ${SG_ID}
       assign_public_ip: ENABLED
