@@ -86,8 +86,22 @@ ecs-cli compose service up --deployment-max-percent 100 --deployment-min-healthy
 --target-group-arn $TARGET_GROUP_ARN --launch-type FARGATE
 ```
 
+Create an Application Load Balancer (ALB), listener, and target group for service A.
 
-ecs-cli compose --project-name service-b-project --file docker-compose.yml service up --container-port 8080 --target-group-arn arn:aws:elasticloadbalancing:us-east-1:820537372947:targetgroup/service-b-tg/3a30e651d497781a
-aws ecs register-task-definition --cli-input-json file://~/fargate/service-a-taskdef.json
-aws ecs create-service --service-name <service_name> --task-definition arn:aws:ecs:us-east-1:820537372947:task-definition/service-a:5 --load-balancer targetGroupArn=string,loadBalancerName=string,containerName=string,containerPort=integer
+```
+export LOAD_BALANCER_ARN=$(aws elbv2 create-load-balancer --name <load_balancer_name> --subnets $SUBNET_ID_1 $SUBNET_ID_2 --security-groups $SG_ID --scheme internet-facing --type application | jq -r '.LoadBalancers[].LoadBalancerArn')
+export TARGET_GROUP_ARN=$(aws elbv2 create-target-group --name <target_group_name> --protocol HTTP --port 8080 --vpc-id <vpc_id> | jq -r '.TargetGroups[].TargetGroupArn')
+aws elbv2 create-listener --load-balancer-arn $LOAD_BALANCER_ARN --protocol HTTP --port 80 --default-actions Type=forward,TargetGroupArn=$TARGET_GROUP_ARN
+```
 
+Create service A. 
+
+```
+cd ./service-a/
+envsubst < docker-compose.yml-template > docker-compose.yml
+envsubst < ecs-params.yml-template > ecs-params.yml
+ecs-cli compose service up --deployment-max-percent 100 --deployment-min-healthy-percent 0 
+--target-group-arn $TARGET_GROUP_ARN --launch-type FARGATE
+```
+
+Open the X-Ray console.
