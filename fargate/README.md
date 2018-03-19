@@ -80,8 +80,8 @@ Create service B.
 
 ```
 cd ./service-b/
-envsubst < docker-compose.yml > something
-envsubst < ecs-params.yml > another_something
+envsubst < docker-compose.yml-template > docker-compose.yml
+envsubst < ecs-params.yml-template > ecs-params.yml
 ecs-cli compose service up --deployment-max-percent 100 --deployment-min-healthy-percent 0 
 --target-group-arn $TARGET_GROUP_ARN --launch-type FARGATE
 ```
