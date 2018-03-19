@@ -5,12 +5,12 @@
     "family": "service-a",
     "placementConstraints": [],
     "cpu": "256",
-    "executionRoleArn": "arn:aws:iam::820537372947:role/ecsTaskExecutionRole",
+    "executionRoleArn": "<ecs_execution_role_arn>",
     "volumes": [],
     "requiresCompatibilities": [
         "FARGATE"
     ],
-    "taskRoleArn": "arn:aws:iam::820537372947:role/xray-role-for-fargate",
+    "taskRoleArn": "<task_role>",
     "containerDefinitions": [
         {
             "environment": [
@@ -20,12 +20,12 @@
                 },
                 {
                     "name": "API_CNAME",
-                    "value": "service-b-nlb-ffb9c9bbc179c21b.elb.us-east-1.amazonaws.com"
+                    "value": "<service_b_endpoint_url>"
                 }
             ],
             "name": "service-a",
             "mountPoints": [],
-            "image": "820537372947.dkr.ecr.us-east-1.amazonaws.com/service-a:latest",
+            "image": "<repository_uri_service_a>",
             "cpu": 0,
             "portMappings": [
                 {
@@ -49,7 +49,7 @@
             "environment": [],
             "name": "xray-sidecar",
             "mountPoints": [],
-            "image": "820537372947.dkr.ecr.us-east-1.amazonaws.com/xray-sidecar:latest",
+            "image": "<repository_uri_xray_daemon>",
             "cpu": 0,
             "portMappings": [
                 {
