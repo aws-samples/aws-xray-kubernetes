@@ -8,8 +8,8 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "express": "latest",
-    "aws-sdk": "latest",
-    "aws-xray-sdk": "latest"
+    "aws-sdk": "^2.221.1",
+    "aws-xray-sdk": "^1.2.0",
+    "express": "^4.16.3"
   }
 }
