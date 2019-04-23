@@ -69,7 +69,7 @@ spec:
         app: service-b
     spec:
       containers:
-        - name: servie-b
+        - name: service-b
           image: <account-id>.dkr.ecr.eu-west-1.amazonaws.com/service-b:latest
           imagePullPolicy: Always
           ports:
