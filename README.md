@@ -2,8 +2,13 @@
 
 Code examples showing how to run AWS X-Ray on a Kubernetes cluster for deep application insights. Please also see the acompanying [blog post](https://aws.amazon.com/de/blogs/compute/application-tracing-on-kubernetes-with-aws-x-ray/) for background information.
 
+# Changelog
+
+* **03/31/2020** Update deployment specs to latest k8s version. Use official AWS X-Ray Docker image.
+* **03/17/2020** Update sample app dependencies  
+
 ## Run AWS X-Ray on Kubernetes
-The xray-daemon folder contains the code required to build and deploy an AWS X-Ray daemon docker image and deploy this to an existing EKS or Kubernetes cluster.
+The xray-daemon folder contains the code required to build and deploy an AWS X-Ray daemon Docker image and deploy this to an existing EKS or Kubernetes cluster.
 
 Utilize the buildspec.yml for AWS CodeBuild to build and push the Docker image to an ECR repository.
 

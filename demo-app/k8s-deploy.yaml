@@ -13,13 +13,16 @@
 
 ---
 # Service A deployment
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: service-a
   namespace: default
 spec:
   replicas: 2 # tells deployment to run 2 pods matching the template
+  selector:
+    matchLabels:
+      app: service-a
   template: # create pods using pod definition in this template
     metadata:
       labels:
@@ -37,6 +40,13 @@ spec:
               value: service-b.default
             - name: AWS_XRAY_DAEMON_ADDRESS
               value: xray-service.default
+          resources:
+            requests:
+              cpu: 128m
+              memory: 128Mi
+            limits:
+              cpu: 1024m
+              memory: 128Mi
 
 ---
 # Service A
@@ -49,20 +59,23 @@ spec:
     app: service-a
   type: LoadBalancer
   ports:
-  - name: http
-    port: 80
-    targetPort: http
+    - name: http
+      port: 80
+      targetPort: http
 
 ###
 ---
 # Service B
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: service-b
   namespace: default
 spec:
   replicas: 2 # tells deployment to run 2 pods matching the template
+  selector:
+    matchLabels:
+      app: service-b
   template: # create pods using pod definition in this template
     metadata:
       labels:
@@ -78,6 +91,13 @@ spec:
           env:
             - name: AWS_XRAY_DAEMON_ADDRESS
               value: xray-service.default
+          resources:
+            requests:
+              cpu: 128m
+              memory: 128Mi
+            limits:
+              cpu: 1024m
+              memory: 128Mi
 
 ---
 # Service B
@@ -90,6 +110,6 @@ spec:
     app: service-b
   type: LoadBalancer
   ports:
-  - name: http
-    port: 80
-    targetPort: http
+    - name: http
+      port: 80
+      targetPort: http
