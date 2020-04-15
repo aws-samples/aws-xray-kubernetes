@@ -1,4 +1,4 @@
-# Copyright 2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License").
 # You may not use this file except in compliance with the License.
@@ -18,21 +18,18 @@ metadata:
     app: xray-daemon
   name: xray-daemon
   namespace: default
----
-apiVersion: rbac.authorization.k8s.io/v1beta1
-kind: ClusterRoleBinding
-metadata:
-  name: xray-daemon
-  labels:
-    app: xray-daemon
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: cluster-admin
-subjects:
-  - kind: ServiceAccount
-    name: xray-daemon
-    namespace: default
+  # IAM permissions for AWS X-Ray daemon.
+  # Run `eksctl create iamserviceaccount \
+  #  --name service_account_name \
+  #  --namespace service_account_namespace \
+  #  --cluster cluster_name \
+  #  --attach-policy-arn arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess \
+  #  --approve \
+  #  --override-existing-serviceaccounts`
+  #
+  # Then uncomment the next two lines and add your new role-arn.
+  #annotations:
+    #eks.amazonaws.com/role-arn: arn:aws:iam::AWS_ACCOUNT_ID:role/IAM_ROLE_NAME
 ---
 apiVersion: apps/v1
 kind: DaemonSet
@@ -53,7 +50,6 @@ spec:
         - name: config-volume
           configMap:
             name: "xray-config"
-      hostNetwork: true
       containers:
         - name: xray-daemon
           image: amazon/aws-xray-daemon
@@ -70,6 +66,10 @@ spec:
               containerPort: 2000
               hostPort: 2000
               protocol: UDP
+            - name: xray-tcp
+              containerPort: 2000
+              hostPort: 2000
+              protocol: TCP
           volumeMounts:
             - name: config-volume
               mountPath: /aws/xray
@@ -98,6 +98,9 @@ spec:
     app: xray-daemon
   clusterIP: None
   ports:
-    - name: incoming
+    - name: udp_in
       port: 2000
       protocol: UDP
+    - name: tcp_in
+      port: 2000
+      protocol: TCP
