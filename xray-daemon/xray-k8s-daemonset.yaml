@@ -101,9 +101,9 @@ spec:
     app: xray-daemon
   clusterIP: None
   ports:
-    - name: udp_in
+    - name: xray-ingest
       port: 2000
       protocol: UDP
-    - name: tcp_in
+    - name: xray-tcp
       port: 2000
       protocol: TCP
