@@ -35,6 +35,7 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: xray-daemon
+  namespace: default
 spec:
   updateStrategy:
     type: RollingUpdate
@@ -80,6 +81,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: xray-config
+  namespace: default
 data:
   config.yaml: |-
     TotalBufferSizeMB: 24
@@ -93,14 +95,15 @@ apiVersion: v1
 kind: Service
 metadata:
   name: xray-service
+  namespace: default
 spec:
   selector:
     app: xray-daemon
   clusterIP: None
   ports:
-    - name: udp_in
+    - name: xray-ingest
       port: 2000
       protocol: UDP
-    - name: tcp_in
+    - name: xray-tcp
       port: 2000
       protocol: TCP
