@@ -39,7 +39,7 @@ spec:
             - name: API_CNAME
               value: service-b.default
             - name: AWS_XRAY_DAEMON_ADDRESS
-              value: xray-service.default
+              value: xray-service.default:2000
           resources:
             requests:
               cpu: 128m
@@ -90,7 +90,7 @@ spec:
               containerPort: 8080
           env:
             - name: AWS_XRAY_DAEMON_ADDRESS
-              value: xray-service.default
+              value: xray-service.default:2000
           resources:
             requests:
               cpu: 128m
